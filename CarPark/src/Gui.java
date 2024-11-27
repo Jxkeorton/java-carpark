@@ -1,5 +1,5 @@
-import javax.swing.*;
-import java.awt.*;
+// import javax.swing.*;
+// import java.awt.*;
 
 public class Gui extends App {
     public void MainScreen(){
@@ -10,7 +10,8 @@ public class Gui extends App {
         //Lee
     };
 
-    public void AdminScreen(){
-        // Jake
-    };
+    public void AdminScreen() {
+        AdminScreenGUI adminScreen = new AdminScreenGUI();
+        adminScreen.setVisible(true);
+    }
 };

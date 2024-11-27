@@ -23,8 +23,7 @@ public class App {
         // // Update car details
         // CSV.delete(0);
 
-        AdminScreenGUI gui = new AdminScreenGUI();
-        gui.setLocationRelativeTo(null);
-        gui.setVisible(true);
+        Gui gui = new Gui();
+        gui.AdminScreen();
     }
 }

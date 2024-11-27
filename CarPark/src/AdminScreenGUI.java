@@ -7,18 +7,34 @@ public class AdminScreenGUI extends JFrame {
     private JPanel contentPanel;
     private JScrollPane scrollPane;
     private JTextField searchField;
-    private HandleCSV csvHandler;
-    private String[] carparkData;
+    private Admin admin;
 
     public AdminScreenGUI() {
+        admin = new Admin();
+        setupGui();
+        displayData(admin.getData());
+    }
+
+    private void setupGui() {
         setTitle("Admin Dashboard");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new BorderLayout());
+        setupPanels();
+        setupSearch();
+        add(mainPanel);
+    }
 
-        // Search panel
+    private void setupPanels() {
+        mainPanel = new JPanel(new BorderLayout());
+        contentPanel = new JPanel();
+        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+        scrollPane = new JScrollPane(contentPanel);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
+    }
+
+    private void setupSearch() {
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         searchField = new JTextField(30);
         JButton searchButton = new JButton("Search");
@@ -26,43 +42,21 @@ public class AdminScreenGUI extends JFrame {
         searchPanel.add(new JLabel("Search: "));
         searchPanel.add(searchField);
         searchPanel.add(searchButton);
-
-        // Content panel with scroll
-        contentPanel = new JPanel();
-        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
-        scrollPane = new JScrollPane(contentPanel);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
         mainPanel.add(searchPanel, BorderLayout.NORTH);
-        mainPanel.add(scrollPane, BorderLayout.CENTER);
-        
-        add(mainPanel);
-        
-        csvHandler = new HandleCSV();
-        loadCSVData();
     }
 
     private void performSearch() {
-        String searchTerm = searchField.getText().toLowerCase();
-        contentPanel.removeAll();
-        
-        for (String row : carparkData) {
-            if (row.toLowerCase().contains(searchTerm)) {
-                addRowPanel(row);
-            }
-        }
-        
-        contentPanel.revalidate();
-        contentPanel.repaint();
+        String searchTerm = searchField.getText();
+        displayData(admin.searchData(searchTerm));
     }
 
-    private void loadCSVData() {
-        csvHandler.read("carpark");
-        carparkData = App.carparkData;
-        
-        for (String row : carparkData) {
+    private void displayData(String[] data) {
+        contentPanel.removeAll();
+        for (String row : data) {
             addRowPanel(row);
         }
+        contentPanel.revalidate();
+        contentPanel.repaint();
     }
 
     private void addRowPanel(String rowData) {
@@ -75,6 +69,16 @@ public class AdminScreenGUI extends JFrame {
         dataPanel.add(dataLabel);
         
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        Buttons(buttonPanel, rowPanel, dataLabel, rowData);
+        
+        rowPanel.add(dataPanel, BorderLayout.CENTER);
+        rowPanel.add(buttonPanel, BorderLayout.EAST);
+        
+        contentPanel.add(rowPanel);
+        contentPanel.revalidate();
+    }
+
+    private void Buttons(JPanel buttonPanel, JPanel rowPanel, JLabel dataLabel, String rowData) {
         JButton editButton = new JButton("Edit");
         JButton deleteButton = new JButton("Delete");
         
@@ -95,21 +99,16 @@ public class AdminScreenGUI extends JFrame {
         
         buttonPanel.add(editButton);
         buttonPanel.add(deleteButton);
-        
-        rowPanel.add(dataPanel, BorderLayout.CENTER);
-        rowPanel.add(buttonPanel, BorderLayout.EAST);
-        
-        contentPanel.add(rowPanel);
-        contentPanel.revalidate();
     }
     
     private void updateData() {
-        String[] newData = new String[mainPanel.getComponentCount()];
-        for (int i = 0; i < mainPanel.getComponentCount(); i++) {
-            JPanel panel = (JPanel) mainPanel.getComponent(i);
-            JLabel label = (JLabel) panel.getComponent(0);
+        String[] newData = new String[contentPanel.getComponentCount()];
+        for (int i = 0; i < contentPanel.getComponentCount(); i++) {
+            JPanel panel = (JPanel) contentPanel.getComponent(i);
+            JPanel dataPanel = (JPanel) panel.getComponent(0);
+            JLabel label = (JLabel) dataPanel.getComponent(0);
             newData[i] = label.getText();
         }
-        csvHandler.update(newData);
+        admin.updateData(newData);
     }
 }
