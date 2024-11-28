@@ -8,12 +8,16 @@ public class Gui extends App {
     };
 
     public void LogInScreen(){
-        Login loginScreen = new Login();
+        LoginScreen loginScreen = new LoginScreen();
         loginScreen.main();
     };
 
     public void AdminScreen() {
-        AdminScreenGUI adminScreen = new AdminScreenGUI();
+        AdminScreen adminScreen = new AdminScreen();
         adminScreen.setVisible(true);
+    }
+
+    public void Error() {
+
     }
 };

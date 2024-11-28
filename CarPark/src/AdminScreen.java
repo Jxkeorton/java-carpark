@@ -2,14 +2,14 @@ import javax.swing.*;
 import java.awt.*;
 
 
-public class AdminScreenGUI extends JFrame {
+public class AdminScreen extends JFrame {
     private JPanel mainPanel;
     private JPanel contentPanel;
     private JScrollPane scrollPane;
     private JTextField searchField;
     private Admin admin;
 
-    public AdminScreenGUI() {
+    public AdminScreen() {
         admin = new Admin();
         setupGui();
         displayData(admin.getData());
