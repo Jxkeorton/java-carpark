@@ -9,6 +9,8 @@ public class MainScreen extends JFrame {
 	JTextField textField = new JTextField("Enter VRN", 20);
 	JLabel adminLink = new JLabel("Admin");
 
+	Vehicle vehicle = new Vehicle();
+
 	public void main() {
 		MainScreen gui = new MainScreen();
 		gui.setVisible(true);
@@ -32,7 +34,7 @@ public class MainScreen extends JFrame {
 		enterButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String vrn = textField.getText();
-				JOptionPane.showMessageDialog(panel, "Enter VRN:" + vrn);
+				vehicle.enter(vrn);
 			}
 		});
 

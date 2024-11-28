@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 
 public class AdminScreen extends JFrame {
@@ -12,7 +13,10 @@ public class AdminScreen extends JFrame {
     public AdminScreen() {
         admin = new Admin();
         setupGui();
-        displayData(admin.getData());
+        ArrayList<String> data = admin.getData();
+        String[] displayData = data.toArray(new String[0]);
+
+        displayData(displayData);
     }
 
     private void setupGui() {
@@ -102,12 +106,17 @@ public class AdminScreen extends JFrame {
     }
     
     private void updateData() {
-        String[] newData = new String[contentPanel.getComponentCount()];
+        ArrayList<String> newData = new ArrayList<String>();
+
+        for (int i = 0; i < contentPanel.getComponentCount(); i++) {
+            newData.add(null);
+        }
+
         for (int i = 0; i < contentPanel.getComponentCount(); i++) {
             JPanel panel = (JPanel) contentPanel.getComponent(i);
             JPanel dataPanel = (JPanel) panel.getComponent(0);
             JLabel label = (JLabel) dataPanel.getComponent(0);
-            newData[i] = label.getText();
+            newData.set(i, label.getText());
         }
         admin.updateData(newData);
     }

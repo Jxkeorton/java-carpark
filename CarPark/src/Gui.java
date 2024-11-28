@@ -18,6 +18,6 @@ public class Gui extends App {
     }
 
     public void Error() {
-
+        // error logic
     }
 };

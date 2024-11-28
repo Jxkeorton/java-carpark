@@ -1,5 +1,5 @@
 import java.io.*;
-import java.util.Scanner;
+import java.util.*;
 
 public class HandleCSV {
 
@@ -54,24 +54,24 @@ public class HandleCSV {
                     myReader.close();
 
                     String data = carparkData.toString().trim();
-                    App.carparkData = data.isEmpty() ? new String[0] : data.split("\n");
+                    App.carparkData = data.isEmpty() ? new ArrayList<String>() : new ArrayList<>(Arrays.asList(data.split("\n")));
 
                 } catch (FileNotFoundException e) {
                     System.out.println("Error: Could not find Carpark data file");
                     System.out.println("Looking in: " + new File("CarPark/VehicleData.csv").getAbsolutePath());
-                    App.carparkData = new String[0];
+                    App.carparkData = new ArrayList<String>();
                 }
             } else {
-                App.carparkData = new String[0];
+                App.carparkData = new ArrayList<String>();
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            App.carparkData = new String[0];
+            App.carparkData = new ArrayList<String>();
         }
     }
     //Update
-    public void update(String[] data) {
+    public void update(ArrayList<String> data) {
         try {
             File file = new File("CarPark/VehicleData.csv");
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
@@ -89,36 +89,6 @@ public class HandleCSV {
     
         } catch (IOException e) {
             System.out.println("Error updating file: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-    //Delete
-    public void delete(int rowNumber) {
-        try {
-            if (rowNumber < 0 || rowNumber >= App.carparkData.length) {
-                System.out.println("Error: Invalid row number");
-                return;
-            }
-    
-            String[] newData = new String[App.carparkData.length - 1];
-            
-            int newIndex = 0;
-            for (int i = 0; i < App.carparkData.length; i++) {
-                if (i != rowNumber) {
-                    newData[newIndex] = App.carparkData[i];
-                    newIndex++;
-                }
-            }
-    
-            App.carparkData = newData;
-    
-            // Update the CSV file
-            update(newData);
-    
-            System.out.println("Row " + rowNumber + " deleted successfully");
-    
-        } catch (Exception e) {
-            System.out.println("Error deleting row: " + e.getMessage());
             e.printStackTrace();
         }
     }

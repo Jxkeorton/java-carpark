@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Admin {
     private HandleCSV csvHandler;
-    private String[] carparkData;
+    private ArrayList<String> carparkData;
 
     public Admin() {
         csvHandler = new HandleCSV();
@@ -27,12 +27,12 @@ public class Admin {
         return results.toArray(new String[0]);
     }
 
-    public void updateData(String[] newData) {
+    public void updateData(ArrayList<String> newData) {
         csvHandler.update(newData);
         loadData();
     }
 
-    public String[] getData() {
+    public ArrayList<String> getData() {
         return carparkData;
     }
 }
