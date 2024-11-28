@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
  
-public class Login {
+public class Login extends JFrame {
  
 	private JFrame frmAdministratorLogin;
 	private JTextField txtUsername;
@@ -89,7 +89,7 @@ public class Login {
 		});
 	}
  
-	public static void main(String[] args) {
+	public void main() {
 		Login window = new Login();
 		window.frmAdministratorLogin.setVisible(true);
 	}

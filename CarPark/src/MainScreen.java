@@ -3,18 +3,18 @@ import java.awt.Cursor;
 import java.awt.event.*;
  
  
-public class EnterVRN extends JFrame{
+public class MainScreen extends JFrame {
 	JPanel pnl = new JPanel();
 	JButton btn1 = new JButton("Enter");
 	JButton btn2 = new JButton ("Exit");
 	JTextField textField = new JTextField("Enter VRN",20);
 	JLabel adminLink = new JLabel ("Admin");
-	public EnterVRN(){
+	public MainScreen(){
 		super("Car park Enter VRN");
 		setSize(500, 200);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		add(pnl);
-		setVisible(true);
+		
 		Icon linkIcon = UIManager.getIcon("OptionPane.informationIcon");
 		adminLink.setIcon(linkIcon);
 		adminLink.setText("<html><a href=''>Admin</a></html>");
@@ -43,8 +43,8 @@ public class EnterVRN extends JFrame{
  
 	
 }
-	public static void main (String [] args){
-		EnterVRN gui = new EnterVRN();
+	public void main (){
+		MainScreen gui = new MainScreen();
         gui.setVisible(true);
 	}
  

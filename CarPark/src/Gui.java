@@ -3,11 +3,13 @@
 
 public class Gui extends App {
     public void MainScreen(){
-        //Liz
+        MainScreen mainScreen = new MainScreen();
+        mainScreen.main();
     };
 
     public void LogInScreen(){
-        //Lee
+        Login loginScreen = new Login();
+        loginScreen.main();
     };
 
     public void AdminScreen() {
