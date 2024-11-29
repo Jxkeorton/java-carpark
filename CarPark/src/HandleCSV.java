@@ -85,10 +85,10 @@ public class HandleCSV {
             }
     
             writer.close();
-            System.out.println("File updated successfully");
+            JOptionPane.showMessageDialog(this, "Record Updated Successfully", JOptionPane.INFORMATION_MESSAGE);
     
         } catch (IOException e) {
-            System.out.println("Error updating file: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Error updating file: " + e.getMessage(), "File Update Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }
