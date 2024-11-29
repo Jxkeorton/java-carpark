@@ -16,8 +16,4 @@ public class Gui extends App {
         AdminScreen adminScreen = new AdminScreen();
         adminScreen.setVisible(true);
     }
-
-    public void Error() {
-        // error logic
-    }
 };

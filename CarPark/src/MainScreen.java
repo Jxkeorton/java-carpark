@@ -9,6 +9,7 @@ public class MainScreen extends JFrame {
 	JTextField textField = new JTextField("Enter VRN", 20);
 	JLabel adminLink = new JLabel("Admin");
 
+
 	Vehicle vehicle = new Vehicle();
 
 	public void main() {
@@ -40,7 +41,9 @@ public class MainScreen extends JFrame {
 
 		exitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				String vrn = textField.getText();
+				int payment = vehicle.exit(vrn);
+				paymentPane(payment);
 			}
 		});
 
@@ -59,5 +62,25 @@ public class MainScreen extends JFrame {
 				}
 			}
 		});
+	}
+
+	private void paymentPane(int payment){
+		// Show the dialog with only the "Pay" button
+		Object[] options = {"Pay"};
+		int choice = JOptionPane.showOptionDialog(
+			null,
+			"Amount to pay: £" + payment,
+			"Payment",
+			JOptionPane.DEFAULT_OPTION,
+			JOptionPane.INFORMATION_MESSAGE,
+			null,
+			options,
+			options[0]
+		);
+
+		// Handle the user's choice
+		if (choice == 0) { // User clicked "Pay"
+			JOptionPane.showMessageDialog(null, "Payment successful!");
+		}
 	}
 }
