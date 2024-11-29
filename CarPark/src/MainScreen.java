@@ -20,7 +20,7 @@ public class MainScreen extends JFrame {
 	public MainScreen() {
 		super("Car park Enter VRN");
 		setSize(500, 200);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setUndecorated(true);		
 		add(panel);
 
 		Icon linkIcon = UIManager.getIcon("OptionPane.informationIcon");

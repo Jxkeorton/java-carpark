@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-
 public class AdminScreen extends JFrame {
     private JPanel mainPanel;
     private JPanel contentPanel;
@@ -26,6 +25,7 @@ public class AdminScreen extends JFrame {
 
         setupPanels();
         setupSearch();
+        setupLogout();
         add(mainPanel);
     }
 
@@ -47,6 +47,17 @@ public class AdminScreen extends JFrame {
         searchPanel.add(searchField);
         searchPanel.add(searchButton);
         mainPanel.add(searchPanel, BorderLayout.NORTH);
+    }
+
+    private void setupLogout() {
+        JPanel logoutPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JButton logoutButton = new JButton("Log out");
+        logoutButton.addActionListener(e -> logout());
+        JButton exitButton = new JButton("Exit");
+        exitButton.addActionListener(e -> System.exit(0));
+        logoutPanel.add(logoutButton);
+        logoutPanel.add(exitButton);
+        mainPanel.add(logoutPanel, BorderLayout.SOUTH);
     }
 
     private void performSearch() {
@@ -106,7 +117,7 @@ public class AdminScreen extends JFrame {
     }
     
     private void updateData() {
-        ArrayList<String> newData = new ArrayList<String>();
+        ArrayList<String> newData = new ArrayList<>();
 
         for (int i = 0; i < contentPanel.getComponentCount(); i++) {
             newData.add(null);
@@ -119,5 +130,14 @@ public class AdminScreen extends JFrame {
             newData.set(i, label.getText());
         }
         admin.updateData(newData);
+    }
+
+    private void logout() {
+        // Call the auth.logout method
+        Authenticate auth = new Authenticate();
+        auth.logout();
+
+        // Close the AdminScreen window
+        dispose();
     }
 }
