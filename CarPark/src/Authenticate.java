@@ -14,6 +14,7 @@ public class Authenticate extends App {
             Gui gui = new Gui();
             gui.AdminScreen();
         } else {
+            JOptionPane.showMessageDialog(this, "Invalid username or password.", "Login Failed", JOptionPane.ERROR_MESSAGE);
             isLoggedIn = false;
         }
     }
