@@ -36,6 +36,7 @@ public class MainScreen extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String vrn = textField.getText();
 				vehicle.enter(vrn);
+				textField.setText("");
 			}
 		});
 
@@ -44,6 +45,7 @@ public class MainScreen extends JFrame {
 				String vrn = textField.getText();
 				int payment = vehicle.exit(vrn);
 				paymentPane(payment);
+				textField.setText("");
 			}
 		});
 

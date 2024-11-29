@@ -1,6 +1,3 @@
-// import javax.swing.*;
-// import java.awt.*;
-
 public class Gui extends App {
     public void MainScreen(){
         MainScreen mainScreen = new MainScreen();
