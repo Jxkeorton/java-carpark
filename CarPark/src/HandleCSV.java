@@ -1,6 +1,8 @@
 import java.io.*;
 import java.util.*;
 
+import javax.swing.JOptionPane;
+
 public class HandleCSV {
 
     //Create
@@ -85,10 +87,10 @@ public class HandleCSV {
             }
     
             writer.close();
-            JOptionPane.showMessageDialog(this, "Record Updated Successfully", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Record Updated Successfully", "Update Successful", JOptionPane.INFORMATION_MESSAGE);
     
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(this, "Error updating file: " + e.getMessage(), "File Update Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error updating file: " + e.getMessage(), "File Update Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }
