@@ -6,7 +6,7 @@ public class Gui extends App {
 
     public void LogInScreen(){
         LoginScreen loginScreen = new LoginScreen();
-        loginScreen.main();
+        loginScreen.setVisible(true);
     };
 
     public void AdminScreen() {
