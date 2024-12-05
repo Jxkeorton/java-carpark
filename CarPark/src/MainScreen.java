@@ -44,8 +44,12 @@ public class MainScreen extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String vrn = textField.getText();
 				int payment = vehicle.exit(vrn);
-				paymentPane(payment);
-				textField.setText("");
+				if (payment > 0){
+					paymentPanel(payment);
+					textField.setText("");
+				} else {
+					System.out.println("error");
+				}
 			}
 		});
 
@@ -66,7 +70,7 @@ public class MainScreen extends JFrame {
 		});
 	}
 
-	private void paymentPane(int payment){
+	private void paymentPanel(int payment){
 		// Show the dialog with only the "Pay" button
 		Object[] options = {"Pay"};
 		int choice = JOptionPane.showOptionDialog(

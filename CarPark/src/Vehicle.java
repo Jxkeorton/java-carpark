@@ -28,12 +28,15 @@ public class Vehicle {
     // exit carpark (returns payment amount)
     public Integer exit(String VRN) {
         String exitDateTime = DateFormatter();
+        String[] exitDT = exitDateTime.split(" ");
 
         String rowData = null;
+        int rowIndex = -1;
         // Get VRN from array list and entry time/day
         for (int i = 0; i < App.carparkData.size(); i++) {
             if (App.carparkData.get(i).contains(VRN)) {
                 rowData = App.carparkData.get(i);
+                rowIndex = i;
             }
         }
 
@@ -43,14 +46,25 @@ public class Vehicle {
             String[] rowDataArray = rowData.split(",");
             String[] entryDateTimeArray = {rowDataArray[1],rowDataArray[2] };
             entryDateTime = entryDateTimeArray[0] + " " + entryDateTimeArray[1];
+        } else {
+            return null;
         }
 
         Payment payment = new Payment();
         int paymentAmmount = payment.payment(entryDateTime, exitDateTime);
+
+        // update csv
+        String[] rowElements = rowData.split(",");
+        String updatedRow = String.format("%s,%s,%s,%s,%s,%.2f",
+            rowElements[0], rowElements[1], rowElements[2],
+            exitDT[0], exitDT[1], (double)paymentAmmount);
+        
+        App.carparkData.set(rowIndex, updatedRow);
+        csvHandler.update(App.carparkData);
+
         return paymentAmmount;
     }
-    // find VRN in carparkData
-    // use delete in handleCSV class
+    // use update in handleCSV class
 
     // date formatter https://java2blog.com/java-localdatetime-to-string/
     public static String DateFormatter() {
