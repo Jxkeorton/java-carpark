@@ -48,7 +48,7 @@ public class MainScreen extends JFrame {
 					paymentPanel(payment);
 					textField.setText("");
 				} else {
-					System.out.println("error");
+					JOptionPane.showMessageDialog(null, "Error", "You likely entered the VRN number incorrectly", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		});
@@ -85,7 +85,7 @@ public class MainScreen extends JFrame {
 		);
 
 		// Handle the user's choice
-		if (choice == 0) { // User clicked "Pay"
+		if (choice == 0) {
 			JOptionPane.showMessageDialog(null, "Payment successful!");
 		}
 	}

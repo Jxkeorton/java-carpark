@@ -1,8 +1,6 @@
 import java.io.*;
 import java.util.*;
 
-import javax.swing.JOptionPane;
-
 public class HandleCSV {
 
     //Create
@@ -73,25 +71,13 @@ public class HandleCSV {
         }
     }
     //Update
-    public void update(ArrayList<String> data) {
-        try {
-            File file = new File("CarPark/VehicleData.csv");
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-    
-            // Write header
-            writer.write("VRN,EntryDate,EntryTime,ExitDate,ExitTime,Payment\n");
-    
-            // Write data
-            for (String row : data) {
-                writer.write(row + "\n");
-            }
-    
-            writer.close();
-            JOptionPane.showMessageDialog(null, "Record Updated Successfully", "Update Successful", JOptionPane.INFORMATION_MESSAGE);
-    
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error updating file: " + e.getMessage(), "File Update Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
+    public void update(ArrayList<String> data) throws IOException {
+        File file = new File("CarPark/VehicleData.csv");
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+        writer.write("VRN,EntryDate,EntryTime,ExitDate,ExitTime,Payment\n");
+        for (String row : data) {
+            writer.write(row + "\n");
         }
+        writer.close();
     }
 }

@@ -22,7 +22,11 @@ public class Vehicle {
         App.carparkData.add(stringBuilder.toString());
 
         // add to carparkData
-        csvHandler.update(App.carparkData);
+        try {
+            csvHandler.update(App.carparkData);
+        } catch (Exception e) {
+            System.out.println("error updating on entry");
+        }
     }
 
     // exit carpark (returns payment amount)
@@ -60,11 +64,15 @@ public class Vehicle {
             exitDT[0], exitDT[1], (double)paymentAmmount);
         
         App.carparkData.set(rowIndex, updatedRow);
-        csvHandler.update(App.carparkData);
+
+        try {
+            csvHandler.update(App.carparkData);
+        } catch (Exception e) {
+            System.out.println("error updating correct VRN on exit");
+        }
 
         return paymentAmmount;
     }
-    // use update in handleCSV class
 
     // date formatter https://java2blog.com/java-localdatetime-to-string/
     public static String DateFormatter() {

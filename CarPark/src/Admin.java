@@ -1,4 +1,6 @@
+import java.io.IOException;
 import java.util.*;
+import javax.swing.JOptionPane;
 
 public class Admin {
     private HandleCSV csvHandler;
@@ -28,8 +30,13 @@ public class Admin {
     }
 
     public void updateData(ArrayList<String> newData) {
-        csvHandler.update(newData);
-        loadData();
+        try {
+            csvHandler.update(newData);
+            loadData();
+            JOptionPane.showMessageDialog(null, "Record Updated Successfully", "Update Successful", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error updating data", "Update Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public ArrayList<String> getData() {
