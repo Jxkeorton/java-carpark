@@ -15,8 +15,7 @@ public class AdminScreen extends JFrame {
     public AdminScreen() {
         admin = new Admin();
         setupGui();
-        ArrayList<String> data = admin.getData();
-        String[] displayData = data.toArray(new String[0]);
+        String[] displayData = App.carparkData.toArray(new String[0]);
         displayData(displayData);
     }
 
@@ -82,9 +81,8 @@ public class AdminScreen extends JFrame {
 
     private void applyFilters() {
         ArrayList<String> filteredData = new ArrayList<>();
-        ArrayList<String> allData = admin.getData();
         
-        for (String row : allData) {
+        for (String row : App.carparkData) {
             String[] fields = row.split(",");
             boolean hasExitDate = fields.length >= 4 && !fields[3].trim().isEmpty();
             
@@ -115,7 +113,6 @@ public class AdminScreen extends JFrame {
         displayData(filteredResults.toArray(new String[0]));
     }
 
-    // Rest of the existing methods remain the same
     private void setupLogout() {
         JPanel logoutPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JButton logoutButton = new JButton("Log out");
@@ -145,6 +142,9 @@ public class AdminScreen extends JFrame {
         JLabel dataLabel = new JLabel(rowData);
         dataPanel.add(dataLabel);
         
+        // Store the original row data for later comparison
+        rowPanel.putClientProperty("originalData", rowData);
+        
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         Buttons(buttonPanel, rowPanel, dataLabel, rowData);
         
@@ -161,37 +161,40 @@ public class AdminScreen extends JFrame {
         
         editButton.addActionListener(e -> {
             String newData = JOptionPane.showInputDialog(this, "Edit data:", rowData);
-            if (newData != null) {
+            if (newData != null && !newData.equals(rowData)) {
+                String originalData = (String) rowPanel.getClientProperty("originalData");
+                updateSingleRow(originalData, newData);
                 dataLabel.setText(newData);
-                updateData();
+                rowPanel.putClientProperty("originalData", newData);
+                applyFilters(); // Reapply filters after update
             }
         });
         
         deleteButton.addActionListener(e -> {
+            String originalData = (String) rowPanel.getClientProperty("originalData");
+            deleteSingleRow(originalData);
             contentPanel.remove(rowPanel);
             contentPanel.revalidate();
             contentPanel.repaint();
-            updateData();
+            applyFilters(); // Reapply filters after delete
         });
         
         buttonPanel.add(editButton);
         buttonPanel.add(deleteButton);
     }
     
-    private void updateData() {
-        ArrayList<String> newData = new ArrayList<>();
-
-        for (int i = 0; i < contentPanel.getComponentCount(); i++) {
-            newData.add(null);
+    private void updateSingleRow(String originalData, String newData) {
+        // Find and update the row in App.carparkData
+        int index = App.carparkData.indexOf(originalData);
+        if (index != -1) {
+            App.carparkData.set(index, newData);
+            admin.updateData(App.carparkData);
         }
-
-        for (int i = 0; i < contentPanel.getComponentCount(); i++) {
-            JPanel panel = (JPanel) contentPanel.getComponent(i);
-            JPanel dataPanel = (JPanel) panel.getComponent(0);
-            JLabel label = (JLabel) dataPanel.getComponent(0);
-            newData.set(i, label.getText());
-        }
-        admin.updateData(newData);
+    }
+    
+    private void deleteSingleRow(String originalData) {
+        App.carparkData.remove(originalData);
+        admin.updateData(App.carparkData);
     }
 
     private void logout() {
