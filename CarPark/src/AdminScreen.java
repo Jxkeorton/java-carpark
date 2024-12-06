@@ -8,13 +8,15 @@ public class AdminScreen extends JFrame {
     private JScrollPane scrollPane;
     private JTextField searchField;
     private Admin admin;
+    private ButtonGroup filterGroup;
+    private JRadioButton showAllRadio;
+    private JRadioButton showCurrentlyParkedRadio;
 
     public AdminScreen() {
         admin = new Admin();
         setupGui();
         ArrayList<String> data = admin.getData();
         String[] displayData = data.toArray(new String[0]);
-
         displayData(displayData);
     }
 
@@ -24,7 +26,7 @@ public class AdminScreen extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         setupPanels();
-        setupSearch();
+        setupTopPanel();
         setupLogout();
         add(mainPanel);
     }
@@ -38,7 +40,12 @@ public class AdminScreen extends JFrame {
         mainPanel.add(scrollPane, BorderLayout.CENTER);
     }
 
-    private void setupSearch() {
+    private void setupTopPanel() {
+        // Create a panel for the top section with FlowLayout
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
+        
+        // Search panel
         JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         searchField = new JTextField(30);
         JButton searchButton = new JButton("Search");
@@ -46,9 +53,69 @@ public class AdminScreen extends JFrame {
         searchPanel.add(new JLabel("Search: "));
         searchPanel.add(searchField);
         searchPanel.add(searchButton);
-        mainPanel.add(searchPanel, BorderLayout.NORTH);
+        
+        // Filter panel
+        JPanel filterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        filterGroup = new ButtonGroup();
+        
+        showAllRadio = new JRadioButton("Show All", true);
+        showCurrentlyParkedRadio = new JRadioButton("Currently in Carpark");
+        
+        filterGroup.add(showAllRadio);
+        filterGroup.add(showCurrentlyParkedRadio);
+        
+        filterPanel.add(new JLabel("Filter: "));
+        filterPanel.add(showAllRadio);
+        filterPanel.add(showCurrentlyParkedRadio);
+        
+        // Add action listeners to radio buttons
+        showAllRadio.addActionListener(e -> applyFilters());
+        showCurrentlyParkedRadio.addActionListener(e -> applyFilters());
+        
+        // Add panels to top panel
+        topPanel.add(searchPanel);
+        topPanel.add(filterPanel);
+        
+        // Add top panel to main panel
+        mainPanel.add(topPanel, BorderLayout.NORTH);
     }
 
+    private void applyFilters() {
+        ArrayList<String> filteredData = new ArrayList<>();
+        ArrayList<String> allData = admin.getData();
+        
+        for (String row : allData) {
+            String[] fields = row.split(",");
+            boolean hasExitDate = fields.length >= 4 && !fields[3].trim().isEmpty();
+            
+            if (showAllRadio.isSelected() ||
+                (showCurrentlyParkedRadio.isSelected() && !hasExitDate)) {
+                filteredData.add(row);
+            }
+        }
+        
+        displayData(filteredData.toArray(new String[0]));
+    }
+
+    private void performSearch() {
+        String searchTerm = searchField.getText();
+        String[] searchResults = admin.searchData(searchTerm);
+        ArrayList<String> filteredResults = new ArrayList<>();
+        
+        for (String row : searchResults) {
+            String[] fields = row.split(",");
+            boolean hasExitDate = fields.length >= 4 && !fields[3].trim().isEmpty();
+            
+            if (showAllRadio.isSelected() ||
+                (showCurrentlyParkedRadio.isSelected() && !hasExitDate)) {
+                filteredResults.add(row);
+            }
+        }
+        
+        displayData(filteredResults.toArray(new String[0]));
+    }
+
+    // Rest of the existing methods remain the same
     private void setupLogout() {
         JPanel logoutPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JButton logoutButton = new JButton("Log out");
@@ -58,11 +125,6 @@ public class AdminScreen extends JFrame {
         logoutPanel.add(logoutButton);
         logoutPanel.add(exitButton);
         mainPanel.add(logoutPanel, BorderLayout.SOUTH);
-    }
-
-    private void performSearch() {
-        String searchTerm = searchField.getText();
-        displayData(admin.searchData(searchTerm));
     }
 
     private void displayData(String[] data) {
@@ -133,11 +195,8 @@ public class AdminScreen extends JFrame {
     }
 
     private void logout() {
-        // Call the auth.logout method
         Authenticate auth = new Authenticate();
         auth.logout();
-
-        // Close the AdminScreen window
         dispose();
     }
 }
