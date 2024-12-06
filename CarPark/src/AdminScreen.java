@@ -166,7 +166,7 @@ public class AdminScreen extends JFrame {
                 updateSingleRow(originalData, newData);
                 dataLabel.setText(newData);
                 rowPanel.putClientProperty("originalData", newData);
-                applyFilters(); // Reapply filters after update
+                applyFilters(); 
             }
         });
         

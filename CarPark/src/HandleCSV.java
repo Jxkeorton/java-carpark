@@ -3,8 +3,6 @@ import java.util.*;
 
 public class HandleCSV {
 
-    //Create
-
     //Read
     public void read(String fileType) {
         try {
