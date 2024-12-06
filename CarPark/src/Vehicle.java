@@ -1,6 +1,8 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import javax.swing.JOptionPane;
+
 public class Vehicle {
 
     HandleCSV csvHandler = new HandleCSV();
@@ -24,8 +26,9 @@ public class Vehicle {
         // add to carparkData
         try {
             csvHandler.update(App.carparkData);
+            JOptionPane.showMessageDialog(null, "Success", "Please enter the carpark", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
-            System.out.println("error updating on entry");
+            JOptionPane.showMessageDialog(null, "Error", "Csv isn't being updated correctly", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
