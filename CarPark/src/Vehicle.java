@@ -54,7 +54,7 @@ public class Vehicle {
             String[] entryDateTimeArray = {rowDataArray[1],rowDataArray[2] };
             entryDateTime = entryDateTimeArray[0] + " " + entryDateTimeArray[1];
         } else {
-            return null;
+            return 0;
         }
 
         Payment payment = new Payment();

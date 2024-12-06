@@ -72,7 +72,7 @@ public class MainScreen extends JFrame {
                     paymentPanel(payment);
                     textField.setText("");
                 } else {
-                    JOptionPane.showMessageDialog(null, "Error", "You likely entered the VRN number incorrectly", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Vehicle not in carpark", "Error", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         });
