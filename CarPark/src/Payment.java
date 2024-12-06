@@ -35,7 +35,7 @@ public class Payment {
         }
 
         // If there are remaining minutes, charge for an additional hour
-        if (totalMinutes % 60 > 0) {
+        if (totalMinutes % 60 >= 0) {
             paymentAmount += hrlyRate;
         }
 
